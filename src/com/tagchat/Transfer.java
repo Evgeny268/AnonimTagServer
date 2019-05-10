@@ -25,12 +25,11 @@ public class Transfer {
             interlocutorSex = 0;
         }
         this.sex = sex;
+        this.interlocutorSex = interlocutorSex;
         this.tagList = tagList;
         this.findAllTag = findAllTag;
         if (sex==0){
             this.interlocutorSex = 0;
-        }else {
-            this.interlocutorSex = interlocutorSex;
         }
     }
 
