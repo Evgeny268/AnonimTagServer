@@ -1,9 +1,10 @@
 package com.tagchat;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Transfer {
+public class Transfer implements Serializable {
     private String text = null;
     private byte sex = 0; // 0 - not set, 1 - male, 2 - female
     private byte interlocutorSex = 0; // 0 - not set, 1 - male, 2 - female
