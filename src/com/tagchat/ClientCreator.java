@@ -11,10 +11,14 @@ import java.util.HashMap;
 public class ClientCreator extends Thread{
     private Socket socket;
     private static volatile ArrayList<Client> clientList = new ArrayList<>();
-    private static final Object listLock = new Object();
+    public static final Object listLock = new Object();
 
     public ClientCreator(Socket socket){
         this.socket = socket;
+    }
+
+    public static ArrayList<Client> getClientList() {
+        return clientList;
     }
 
     @Override
@@ -85,10 +89,8 @@ public class ClientCreator extends Thread{
                 socketClose();
             }
         }else {
-            closeInputStream(ois);
-            closeOutputStream(oos);
-            Client client = new Client(socket,tIn.getSex(),tIn.getInterlocutorSex(), tIn.getTagList(),tIn.isFindAllTag());
-            addClient(client);
+            Client client = new Client(socket,oos,ois,tIn.getSex(),tIn.getInterlocutorSex(), tIn.getTagList(),tIn.isFindAllTag());
+            addClient(client,ois,oos);
             System.out.println("Клиент добавлен");
         }
     }
@@ -127,9 +129,19 @@ public class ClientCreator extends Thread{
         return true;
     }
 
-    private void addClient(Client client){
+    private void addClient(Client client, ObjectInputStream ois, ObjectOutputStream oos){
         synchronized (listLock){
+            try {
+                socket.setSoTimeout(0);
+            } catch (SocketException e) {
+                closeOutputStream(oos);
+                closeInputStream(ois);
+                socketClose();
+                listLock.notify();
+                return;
+            }
             clientList.add(client);
+            listLock.notify();
         }
     }
 }
