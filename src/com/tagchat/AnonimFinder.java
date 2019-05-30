@@ -46,18 +46,34 @@ public class AnonimFinder extends Thread {
         synchronized (ClientCreator.listLock) {
             clientList = new ArrayList<>(ClientCreator.getClientList());
         }
-        for (int i = 0; i < clientList.size(); i++) {
+        for (int i = 0; i < clientList.size(); i++) {//Цикл по всем клиентам в массиве
             if (client.equals(clientList.get(i))) continue;
-            if (client.isFindAllTag()){
+            if (client.isFindAllTag()){ //Если поиск по всем тегам
                 Collections.sort(client.getTagList());
                 Collections.sort(clientList.get(i).getTagList());
                 if (client.getTagList().equals(clientList.get(i).getTagList())){
-                    out = clientList.get(i);
+                    if (client.getSex()==0){//Если пол первого клиента не задан
+                        if (clientList.get(i).getInterlocutorSex()==0){//Если второму клиенту не важен пол
+                            out = clientList.get(i);
+                        } else continue;
+                    }else { //Если пол первого клиента занят
+                        if (client.getSex()==clientList.get(i).getInterlocutorSex()){//Если интересы по полу совпадают у обоих клиентов
+                            out = clientList.get(i);
+                        }else continue;
+                    }
                 }
-            }else {
-                for (int j = 0; j < client.getTagList().size(); j++) {
-                    if (clientList.get(i).getTagList().contains(client.getTagList().get(j))){
-                        out = clientList.get(i);
+            }else { //Если поиск по одному совпавшему тегу
+                for (int j = 0; j < client.getTagList().size(); j++) {//Цикл по массиву тегов первого клиента
+                    if (clientList.get(i).getTagList().contains(client.getTagList().get(j))){//Если совпал хоть один общий тег
+                        if (client.getSex()==0){//Если пол первого клиента не задан
+                            if (clientList.get(i).getInterlocutorSex()==0){//Если второму клиенту не важен пол
+                                out = clientList.get(i);
+                            } else continue;
+                        }else { //Если пол первого клиента занят
+                            if (client.getSex()==clientList.get(i).getInterlocutorSex()){//Если интересы по полу совпадают у обоих клиентов
+                                out = clientList.get(i);
+                            }else continue;
+                        }
                     }
                 }
             }
