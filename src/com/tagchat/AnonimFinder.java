@@ -56,8 +56,8 @@ public class AnonimFinder extends Thread {
                         if (clientList.get(i).getInterlocutorSex()==0){//Если второму клиенту не важен пол
                             out = clientList.get(i);
                         } else continue;
-                    }else { //Если пол первого клиента занят
-                        if (client.getSex()==clientList.get(i).getInterlocutorSex()){//Если интересы по полу совпадают у обоих клиентов
+                    }else { //Если пол первого клиента задан
+                        if (client.getSex()==clientList.get(i).getInterlocutorSex() && client.getInterlocutorSex()==clientList.get(i).getSex()){//Если интересы по полу совпадают у обоих клиентов
                             out = clientList.get(i);
                         }else continue;
                     }
@@ -69,8 +69,8 @@ public class AnonimFinder extends Thread {
                             if (clientList.get(i).getInterlocutorSex()==0){//Если второму клиенту не важен пол
                                 out = clientList.get(i);
                             } else continue;
-                        }else { //Если пол первого клиента занят
-                            if (client.getSex()==clientList.get(i).getInterlocutorSex()){//Если интересы по полу совпадают у обоих клиентов
+                        }else { //Если пол первого клиента задан
+                            if (client.getSex()==clientList.get(i).getInterlocutorSex() && client.getInterlocutorSex()==clientList.get(i).getSex()){//Если интересы по полу совпадают у обоих клиентов
                                 out = clientList.get(i);
                             }else continue;
                         }
