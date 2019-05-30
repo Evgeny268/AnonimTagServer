@@ -21,8 +21,10 @@ public class MessageListener extends Thread{
                 objectOutputStream.writeObject(tIn);
             } catch (IOException e) {
                 e.printStackTrace();
+                return;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                return;
             }
         }
     }
