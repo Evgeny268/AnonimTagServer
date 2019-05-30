@@ -31,6 +31,7 @@ public class AnonimFinder extends Thread {
                                 ClientCreator.getClientList().remove(client2);
                             }
                             Dialog dialog = new Dialog(client,client2);
+                            dialog.start();
                         }else continue;
                     }
                  i++;
