@@ -19,6 +19,7 @@ public class MessageListener extends Thread{
             try {
                 Transfer tIn = (Transfer) objectInputStream.readObject();
                 objectOutputStream.writeObject(tIn);
+                objectOutputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
                 return;
