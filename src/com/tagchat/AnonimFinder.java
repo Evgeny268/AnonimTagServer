@@ -26,10 +26,12 @@ public class AnonimFinder extends Thread {
                         } else continue;
                         Client client2 = findTwo(client);
                         if (client2!=null){
+                            System.out.println("Найден 2-ой клиент");
                             synchronized (ClientCreator.listLock){
                                 ClientCreator.getClientList().remove(client);
                                 ClientCreator.getClientList().remove(client2);
                             }
+                            System.out.println("Создаю диалог");
                             Dialog dialog = new Dialog(client,client2);
                             dialog.start();
                         }else continue;
