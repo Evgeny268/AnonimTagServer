@@ -15,6 +15,15 @@ public class MessageListener extends Thread{
 
     @Override
     public void run() {
+        Transfer transfer = new Transfer("/Test_message");
+        try {
+            objectOutputStream.writeObject(transfer);
+            objectOutputStream.flush();
+        }catch (IOException e){
+            e.printStackTrace();
+            System.err.println("Ошибка во время передачи сообщения 2-ух пользователей");
+            return;
+        }
         while (!isInterrupted()){
             try {
                 Transfer tIn = (Transfer) objectInputStream.readObject();
@@ -22,9 +31,18 @@ public class MessageListener extends Thread{
                 objectOutputStream.flush();
             } catch (IOException e) {
                 e.printStackTrace();
+                System.err.println("Ошибка во время передачи сообщения 2-ух пользователей");
+                try {
+                    Transfer tError = new Transfer("/stop");
+                    objectOutputStream.writeObject(tError);
+                    objectOutputStream.flush();
+                }catch (IOException e1){
+                    e.printStackTrace();
+                }
                 return;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
+                System.err.println("Ошибка во время передачи сообщения 2-ух пользователей");
                 return;
             }
         }
