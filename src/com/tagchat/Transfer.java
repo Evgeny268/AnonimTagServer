@@ -9,7 +9,7 @@ public class Transfer implements Serializable {
     private byte sex = 0; // 0 - not set, 1 - male, 2 - female
     private byte interlocutorSex = 0; // 0 - not set, 1 - male, 2 - female
     private ArrayList<String> tagList = null;
-    private boolean findAllTag = false; //search for all tag matches or search for one of the tags
+    private boolean findAllTag = true; //search for all tag matches or search for one of the tags
     private boolean adult = false;
     private Map<String,Integer> topTags = null;
 
