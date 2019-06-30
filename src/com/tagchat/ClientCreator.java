@@ -23,7 +23,7 @@ public class ClientCreator extends Thread{
 
     @Override
     public void run() {
-        try {
+        try {//Задаем время ожидание ответа от клиента
             socket.setSoTimeout(5000);
         } catch (SocketException e) {
             e.printStackTrace();
@@ -34,7 +34,7 @@ public class ClientCreator extends Thread{
         ObjectInputStream ois = null;
         ObjectOutputStream oos = null;
         try {
-            ois = new ObjectInputStream(socket.getInputStream());
+            ois = new ObjectInputStream(socket.getInputStream());//создаем ObjectInputStream
         }catch (IOException e){
             e.printStackTrace();
             System.err.println("Can't create OIS in ClientCreator");
@@ -43,7 +43,7 @@ public class ClientCreator extends Thread{
         }
 
         try{
-            oos = new ObjectOutputStream(socket.getOutputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream()); //создаем ObjectOutputStream
         }catch (IOException e){
             e.printStackTrace();
             System.err.println("Can't create OOS in ClientCreator");
@@ -53,7 +53,7 @@ public class ClientCreator extends Thread{
         }
         Transfer tIn = null;
         try {
-            tIn = (Transfer) ois.readObject();
+            tIn = (Transfer) ois.readObject();//Считываем ответ клиента
             System.out.println("Объект получен");
         } catch (IOException e) {
             e.printStackTrace();
@@ -73,10 +73,10 @@ public class ClientCreator extends Thread{
             closeOutputStream(oos);
             socketClose();
         }
-        if (tIn.getTagList()==null){
+        if (tIn.getTagList()==null){//Если теги пусты
             System.out.println("Пустые теги");
-            HashMap<String,Integer> map = TopTags.getTopTegs(tIn.isAdult());
-            Transfer tOut = new Transfer(map);
+            HashMap<String,Integer> map = TopTags.getTopTegs(tIn.isAdult());//Получаем топ теги
+            Transfer tOut = new Transfer(map);//и отправляем их клиенту
             try {
                 oos.writeObject(tOut);
                 oos.flush();
@@ -88,7 +88,7 @@ public class ClientCreator extends Thread{
                 closeInputStream(ois);
                 socketClose();
             }
-        }else {
+        }else {//если клиент прислал теги
             Client client = new Client(socket,oos,ois,tIn.getSex(),tIn.getInterlocutorSex(), tIn.getTagList(),tIn.isFindAllTag());
             addClient(client,ois,oos);
             System.out.println("Клиент добавлен");
